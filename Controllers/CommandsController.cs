@@ -26,7 +26,9 @@ namespace CommandsService.Controllers
         {
             System.Console.WriteLine($"--> Hit GetCommandsForPlatform : {platformId}");
             if (!_repo.PlatformExists(platformId))
+            {
                 return NotFound();
+            }
 
             var commands = _repo.GetCommandsForPlatform(platformId);
             return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commands));
@@ -39,11 +41,15 @@ namespace CommandsService.Controllers
         {
             System.Console.WriteLine($"--> Hit GetCommandForPlatform : {platformId}  / {commandId}");
             if (!_repo.PlatformExists(platformId))
+            {
                 return NotFound();
+            }
 
             var command = _repo.GetCommand(platformId, commandId);
             if (command == null)
+            {
                 return NotFound();
+            }
 
             return Ok(_mapper.Map<CommandReadDto>(command));
         }
@@ -54,7 +60,9 @@ namespace CommandsService.Controllers
         {
             System.Console.WriteLine($"--> Hit CreateCommandForPlatform : {platformId} ");
             if (!_repo.PlatformExists(platformId))
+            {
                 return NotFound();
+            }
 
             var command = _mapper.Map<Command>(createDto);
             _repo.CreateCommand(platformId, command);
